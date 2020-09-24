@@ -1,28 +1,97 @@
 import React from "react";
 import { ResponsiveLine } from "@nivo/line";
 
-const y = (hours = 48) => {
+/**
+ * Science stuff:
+ * "Half-life" by Deranged Physiology
+ * https://shorturl.at/LQRU8
+ */
+
+const plasma = (hours = 24, constant = 2.5, halfLife = 2.5, delay = 0) => {
   hours = [...Array(hours + 1).keys()];
 
   const data = [];
+
   const effect = (t) => {
-    const constant = 5;
-    const halfLife = 2;
+    // t: hours after intake
     const k = 0.693 / halfLife;
 
-    return (constant * Math.exp(-k * t)).toFixed(2);
+    const timeToTop = 1;
+
+    if (t < delay) {
+      return 0;
+    }
+
+    if (t < timeToTop + delay) {
+      return (t * constant / (timeToTop + delay));
+    }
+
+    return (constant * Math.exp(-k * (t - (timeToTop + delay)))).toFixed(2);
   };
 
   hours.forEach((hour) => {
-    data.push({ x: hour, y: effect(hour) });
+    data.push(effect(hour));
   });
 
   return data;
 };
 
-console.log(y());
+const arrayToNivo = (array) => {
+  const nivo = [];
 
-y();
+  array.forEach((element, hour) => {
+    nivo.push({ x: hour, y: element });
+  });
+
+  return nivo;
+};
+
+const drugs = {
+  methylfenidate: { constant: 0.2, halfLife: 2.5 },
+};
+
+const pills = [{
+  name: "Ritalin MR",
+  doses: [
+    {
+      drug: drugs.methylfenidate,
+      releases: [0, 4],
+    },
+  ],
+}];
+
+const prescription = [
+  { name: "Ritalin MR", volume: 30, time: 6 },
+  { name: "Ritalin MR", volume: 30, time: 13 },
+];
+
+const layers = [];
+
+prescription.forEach((pill) => {
+  pills[pills.findIndex((p) => p.name === pill.name)].doses.forEach(
+    (dose, hour) => {
+      dose.releases.forEach((release, index) => {
+        layers.push(plasma(
+          24,
+          dose.drug.constant * pill.volume,
+          dose.drug.halfLife,
+          release + pill.time + 1,
+        ));
+      });
+    },
+  );
+});
+
+console.log(layers);
+
+const sum = layers.reduce((a, b) => {
+  return a.map((element, index) => {
+    const elementWiseSum = parseFloat(element) + parseFloat(b[index]);
+    return elementWiseSum;
+  });
+});
+
+const data = arrayToNivo(sum);
 
 export default () => {
   const commonProperties = {
@@ -68,7 +137,7 @@ export default () => {
         data={[
           {
             id: "test",
-            data: y(),
+            data,
           },
         ]}
         enablePoints={false}
