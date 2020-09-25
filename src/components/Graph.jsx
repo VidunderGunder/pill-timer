@@ -9,12 +9,6 @@ import getData from "functions/prescription.js";
  */
 
 export default ({ prescription }) => {
-  const commonProperties = {
-    margin: { top: 20, right: 20, bottom: 60, left: 80 },
-    animate: true,
-    enableSlices: "x",
-  };
-
   // const curveOptions = [
   //   "linear",
   //   "monotoneX",
@@ -54,19 +48,34 @@ export default ({ prescription }) => {
   return (
     <div style={{ height: 300 }}>
       <ResponsiveLine
-        {...commonProperties}
-        margin={{ top: 30, right: 50, bottom: 60, left: 50 }}
         data={[
           {
             id: "methylfenidate",
             data: prescription ? getData(prescription) : [],
           },
         ]}
-        enablePoints={false}
-        enableGridX={true}
-        curve="monotoneX"
-        motionStiffness={200}
+        margin={{ top: 20, right: 5, bottom: 60, left: 35 }}
+        animate={true}
         motionDamping={50}
+        motionStiffness={200}
+        enableSlices="x"
+        enablePoints={false}
+        axisBottom={{
+          format: (y) => `${String(y).length === 1 ? "0" : ""}${y}:00`,
+          orient: "bottom",
+          tickSize: 5,
+          tickPadding: 7.5,
+          tickRotation: -60,
+        }}
+        axisLeft={{
+          tickSize: 5,
+          // tickPadding: 7.5,
+          // tickRotation: -60,
+        }}
+        curve="monotoneX"
+        // enableArea={true}
+        // areaOpacity={0.05}
+        // useMesh={true}
       />
     </div>
   );
