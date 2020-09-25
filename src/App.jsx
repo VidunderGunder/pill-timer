@@ -34,7 +34,7 @@ export default () => {
   const now = new Date(Date.now());
 
   return (
-    <Div100vh>
+    <>
       <Background
         image={background}
         color={`rgba(${175}, ${175}, ${175}, ${0.5})`}
@@ -42,7 +42,7 @@ export default () => {
       <Container>
         <div
           className="h-100 w-100 d-flex align-items-center py-3"
-          style={{ minHeight: "100vh" }}
+          style={{ minHeight: "100vh", position: "relative", bottom: 0 }}
         >
           <Card className="shadow w-100">
             <Card.Body>
@@ -156,6 +156,6 @@ export default () => {
           </Card>
         </div>
       </Container>
-    </Div100vh>
+    </>
   );
 };
