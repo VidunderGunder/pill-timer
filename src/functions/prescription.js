@@ -7,17 +7,17 @@ const plasma = (hours = 24, constant = 2.5, halfLife = 2.5, delay = 0) => {
     // t: hours after intake
     const k = 0.693 / halfLife;
 
-    const timeToTop = 1;
+    const timeToTop = 2;
 
     if (t < delay) {
       return 0;
     }
 
     if (t < timeToTop + delay) {
-      return (t * constant / (timeToTop + delay));
+      return (t * constant) / (timeToTop + delay);
     }
 
-    return (constant * Math.exp(-k * (t - (timeToTop + delay))));
+    return constant * Math.exp(-k * (t - (timeToTop + delay)));
   };
 
   hours.forEach((hour) => {
@@ -41,23 +41,26 @@ const drugs = {
   methylfenidate: { constant: 0.2, halfLife: 2.5, name: "Methylfenidate" },
 };
 
-const pills = [{
-  name: "Ritalin MR",
-  doses: [
-    {
-      drug: drugs.methylfenidate,
-      releases: [0, 4],
-    },
-  ],
-}, {
-  name: "Ritalin IR",
-  doses: [
-    {
-      drug: drugs.methylfenidate,
-      releases: [0],
-    },
-  ],
-}];
+const pills = [
+  {
+    name: "Ritalin MR",
+    doses: [
+      {
+        drug: drugs.methylfenidate,
+        releases: [0, 4],
+      },
+    ],
+  },
+  {
+    name: "Ritalin IR",
+    doses: [
+      {
+        drug: drugs.methylfenidate,
+        releases: [0],
+      },
+    ],
+  },
+];
 
 export default (prescription) => {
   const layers = [];
@@ -66,14 +69,16 @@ export default (prescription) => {
     pills[pills.findIndex((p) => p.name === pill.name)].doses.forEach(
       (dose) => {
         dose.releases.forEach((release) => {
-          layers.push(plasma(
-            24,
-            dose.drug.constant * pill.volume,
-            dose.drug.halfLife,
-            release + pill.time + 1,
-          ));
+          layers.push(
+            plasma(
+              24,
+              dose.drug.constant * pill.volume,
+              dose.drug.halfLife,
+              release + pill.time
+            )
+          );
         });
-      },
+      }
     );
   });
 

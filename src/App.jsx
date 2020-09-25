@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import "styles/styles.css";
 import "styles/bootstrap.scss";
 import Graph from "components/Graph";
@@ -11,9 +11,10 @@ import {
   Row,
   Col,
   InputGroup,
+  ButtonGroup,
 } from "react-bootstrap";
-import { createPartiallyEmittedExpression } from "typescript";
-
+import Background from "components/Background";
+import background from "images/background.jpg";
 export default () => {
   const [pills, setPills] = useState(1);
   const [prescription, setPrescription] = useState();
@@ -34,12 +35,12 @@ export default () => {
       }
       if (key.includes("time")) {
         newPrescription[newPrescription.length - 1]["time"] = Number(
-          values[key],
+          values[key]
         );
       }
       if (key.includes("volume")) {
         newPrescription[newPrescription.length - 1]["volume"] = Number(
-          values[key],
+          values[key]
         );
       }
     });
@@ -47,105 +48,135 @@ export default () => {
     setPrescription(newPrescription);
   };
 
+  const now = new Date(Date.now());
+  // const nowTime = `${now.getHours()}:${now.getMinutes()}`;
+
   return (
     <>
+      <Background image={background} />
       <Container>
-        <Card className="mt-3">
-          <Card.Body>
-            <Graph prescription={prescription} />
-            <Form
-              onChange={handleSubmit(onSubmit)}
-              onBlur={handleSubmit(onSubmit)}
-              onSubmit={handleSubmit(onSubmit)}
-            >
-              {[...Array(pills).keys()].map((index) => {
-                return (
-                  <>
-                    {index > 0 && <hr />}
-                    <Form.Group controlId={`name-${index}`}>
-                      <Form.Label>Medicine {index + 1}</Form.Label>
-                      <Form.Control
-                        as="select"
-                        name={`name-${index}`}
-                        ref={register({ required: true })}
-                      >
-                        {!prescription && <option value={null}></option>}
-                        <option>Ritalin MR</option>
-                        <option>Ritalin IR</option>
-                      </Form.Control>
-                    </Form.Group>
-                    <Form.Group controlId={`volume-${index}`}>
-                      <InputGroup>
-                        {/* <InputGroup.Prepend>
-                          <InputGroup.Text>
-                            Volume {index + 1}
-                          </InputGroup.Text>
-                        </InputGroup.Prepend> */}
-                        <Form.Control
-                          type="number"
-                          step="10"
-                          min={0}
-                          max={1000}
-                          defaultValue={20}
-                          name={`volume-${index}`}
-                          ref={register({ required: true })}
-                        />
-                        <InputGroup.Append>
-                          <InputGroup.Text>mg</InputGroup.Text>
-                        </InputGroup.Append>
-                      </InputGroup>
-                    </Form.Group>
-                    <Form.Group controlId={`time-${index}`}>
-                      <InputGroup>
-                        <InputGroup.Prepend>
-                          <InputGroup.Text>
-                            Time
-                          </InputGroup.Text>
-                        </InputGroup.Prepend>
-                        <Form.Control
-                          as="select"
-                          name={`time-${index}`}
-                          ref={register({ required: true })}
-                        >
-                          {[...Array(24).keys()].map((hour) => (
-                            <option>{hour}</option>
-                          ))}
-                        </Form.Control>
-                      </InputGroup>
-                    </Form.Group>
-                  </>
-                );
-              })}
-              <Row cla>
-                <Col>
+        <div
+          className="h-100 w-100 d-flex align-items-center pt-3"
+          style={{ minHeight: "100vh" }}
+        >
+          <Card className="shadow w-100">
+            <Card.Body>
+              <h3 className="text-center">Pill Timer</h3>
+              <hr />
+              <Graph prescription={prescription} />
+              <Form
+                onChange={handleSubmit(onSubmit)}
+                onBlur={handleSubmit(onSubmit)}
+                onSubmit={handleSubmit(onSubmit)}
+              >
+                {[...Array(pills).keys()].map((index) => {
+                  return (
+                    <>
+                      {/* <p>Medicine {index + 1}</p> */}
+                      <Row>
+                        {index > 0 && <hr />}
+                        <Col>
+                          <Form.Group
+                            controlId={`name-${index}`}
+                            className="shadow-sm"
+                          >
+                            <Form.Control
+                              as="select"
+                              name={`name-${index}`}
+                              ref={register({ required: true })}
+                            >
+                              {!prescription && <option value={null}></option>}
+                              <option>Ritalin MR</option>
+                              <option>Ritalin IR</option>
+                            </Form.Control>
+                          </Form.Group>
+                        </Col>
+                        <Col sm="8" md="6" lg="4">
+                          <Row>
+                            <Col>
+                              <Form.Group
+                                controlId={`volume-${index}`}
+                                className="shadow-sm"
+                              >
+                                <InputGroup>
+                                  <Form.Control
+                                    type="number"
+                                    step="10"
+                                    min={0}
+                                    max={1000}
+                                    defaultValue={20}
+                                    name={`volume-${index}`}
+                                    ref={register({ required: true })}
+                                  />
+                                  <InputGroup.Append>
+                                    <InputGroup.Text>mg</InputGroup.Text>
+                                  </InputGroup.Append>
+                                </InputGroup>
+                              </Form.Group>
+                            </Col>
+                            <Col>
+                              <Form.Group
+                                controlId={`time-${index}`}
+                                className="shadow-sm"
+                              >
+                                <InputGroup>
+                                  <Form.Control
+                                    as="select"
+                                    name={`time-${index}`}
+                                    ref={register({ required: true })}
+                                    defaultValue={Math.floor(
+                                      now.getHours() + now.getMinutes() / 60 + 1
+                                    )}
+                                  >
+                                    {[...Array(24).keys()].map((hour) => (
+                                      <Fragment key={`time-options-${hour}`}>
+                                        <option
+                                          value={hour}
+                                        >{`${hour}:00`}</option>
+                                        <option
+                                          value={hour + 0.5}
+                                        >{`${hour}:30`}</option>
+                                      </Fragment>
+                                    ))}
+                                  </Form.Control>
+                                </InputGroup>
+                              </Form.Group>
+                            </Col>
+                          </Row>
+                        </Col>
+                      </Row>
+                    </>
+                  );
+                })}
+                <ButtonGroup className="w-100 shadow-sm">
                   <Button
                     type="submit"
-                    className="w-100"
+                    variant="light"
+                    className="w-100 border"
                     onClick={() => {
                       setPills(pills + 1);
                       handleSubmit(onSubmit);
                     }}
                   >
-                    Add medicine
+                    <b>+</b>
                   </Button>
-                </Col>
-                <Col>
                   <Button
                     type="submit"
-                    className="w-100"
+                    variant="light"
+                    className="w-100 border"
                     onClick={() => {
                       setPills(pills - 1);
                       handleSubmit(onSubmit);
                     }}
                     disabled={pills === 1}
                   >
-                    Remove medicine
+                    <b>-</b>
                   </Button>
-                </Col>
-              </Row>
-            </Form>
-          </Card.Body>
-        </Card>
+                </ButtonGroup>
+              </Form>
+            </Card.Body>
+          </Card>
+        </div>
       </Container>
     </>
   );
