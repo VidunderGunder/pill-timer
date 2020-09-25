@@ -120,13 +120,10 @@ export default () => {
                                 </Form.Group>
                               </Col>
                               <Col sm="auto" xs="12">
-                                <ButtonGroup
-                                  className={`w-100 ${
-                                    index < fields.length - 1 && "mb-3 mb-sm-0"
-                                  }`}
-                                >
+                                <ButtonGroup className={`w-100`}>
                                   <Button
-                                    variant="light-success"
+                                    variant="very-light"
+                                    className="border"
                                     style={{ width: "2.5em" }}
                                     onClick={() => {
                                       append({});
@@ -136,7 +133,8 @@ export default () => {
                                     <b>+</b>
                                   </Button>
                                   <Button
-                                    variant="light-danger"
+                                    variant="very-light"
+                                    className="border"
                                     style={{ width: "2.5em" }}
                                     onClick={() => remove(index)}
                                     disabled={fields.length === 1}
