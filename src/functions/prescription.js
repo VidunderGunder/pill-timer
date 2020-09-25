@@ -38,7 +38,7 @@ const arrayToNivo = (array) => {
 };
 
 const drugs = {
-  methylfenidate: { constant: 0.2, halfLife: 2.5, name: "Methylfenidate" },
+  methylphenidate: { constant: 0.2, halfLife: 2.5, name: "Methylphenidate" },
 };
 
 const pills = [
@@ -46,7 +46,7 @@ const pills = [
     name: "Ritalin MR",
     doses: [
       {
-        drug: drugs.methylfenidate,
+        drug: drugs.methylphenidate,
         releases: [0, 4],
       },
     ],
@@ -55,7 +55,7 @@ const pills = [
     name: "Ritalin IR",
     doses: [
       {
-        drug: drugs.methylfenidate,
+        drug: drugs.methylphenidate,
         releases: [0],
       },
     ],
@@ -72,9 +72,9 @@ export default (prescription) => {
           layers.push(
             plasma(
               24,
-              dose.drug.constant * pill.volume,
+              dose.drug.constant * Number(pill.volume),
               dose.drug.halfLife,
-              release + pill.time
+              release + Number(pill.time)
             )
           );
         });
