@@ -9,32 +9,6 @@ import getData from "functions/prescription.js";
  */
 
 export default ({ prescription }) => {
-  // const curveOptions = [
-  //   "linear",
-  //   "monotoneX",
-  //   "step",
-  //   "stepBefore",
-  //   "stepAfter",
-  // ];
-
-  // const CustomSymbol = ({ size, color, borderWidth, borderColor }) => (
-  //   <g>
-  //     <circle
-  //       fill="#fff"
-  //       r={size / 2}
-  //       strokeWidth={borderWidth}
-  //       stroke={borderColor}
-  //     />
-  //     <circle
-  //       r={size / 5}
-  //       strokeWidth={borderWidth}
-  //       stroke={borderColor}
-  //       fill={color}
-  //       fillOpacity={0.35}
-  //     />
-  //   </g>
-  // );
-
   if (!prescription || (prescription && prescription.length === 0)) {
     return null;
   }
@@ -61,7 +35,8 @@ export default ({ prescription }) => {
         enableSlices="x"
         enablePoints={false}
         axisBottom={{
-          format: (y) => `${String(y).length === 1 ? "0" : ""}${y}:00`,
+          format: (y) =>
+            `${String(y).length === 1 ? "0" : ""}${y % 1 > 0 ? `` : `${y}:00`}`,
           orient: "bottom",
           tickSize: 5,
           tickPadding: 7.5,
@@ -69,13 +44,8 @@ export default ({ prescription }) => {
         }}
         axisLeft={{
           tickSize: 5,
-          // tickPadding: 7.5,
-          // tickRotation: -60,
         }}
         curve="monotoneX"
-        // enableArea={true}
-        // areaOpacity={0.05}
-        // useMesh={true}
       />
     </div>
   );

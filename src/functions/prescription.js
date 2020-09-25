@@ -1,5 +1,9 @@
 const plasma = (hours = 24, constant = 2.5, halfLife = 2.5, delay = 0) => {
-  hours = [...Array(hours + 1).keys()];
+  hours = [...Array(hours * 2 + 1).keys()];
+
+  hours = hours.map((hour) => hour / 2);
+
+  console.log(hours);
 
   const data = [];
 
@@ -24,6 +28,8 @@ const plasma = (hours = 24, constant = 2.5, halfLife = 2.5, delay = 0) => {
     data.push(effect(hour));
   });
 
+  console.log(data);
+
   return data;
 };
 
@@ -31,7 +37,7 @@ const arrayToNivo = (array) => {
   const nivo = [];
 
   array.forEach((element, hour) => {
-    nivo.push({ x: hour, y: element.toFixed(1) });
+    nivo.push({ x: hour / 2, y: element.toFixed(1) });
   });
 
   return nivo;
