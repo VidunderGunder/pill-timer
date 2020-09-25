@@ -14,6 +14,7 @@ import {
   ButtonGroup,
 } from "react-bootstrap";
 import Background from "components/Background";
+import Footer from "components/Footer";
 import background from "images/background.jpg";
 import Div100vh from "react-div-100vh";
 
@@ -54,7 +55,7 @@ export default () => {
                     <Card
                       className={`${
                         index < fields.length ? "mb-2" : ""
-                      } shadow-sm bg-light`}
+                      } shadow-sm bg-very-light`}
                     >
                       <Card.Body className="p-1">
                         <Row key={id}>
@@ -152,6 +153,7 @@ export default () => {
                   );
                 })}
               </Form>
+              <Footer />
             </Card.Body>
           </Card>
         </div>
