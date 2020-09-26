@@ -16,7 +16,7 @@ import {
 import Background from "components/Background";
 import Footer from "components/Footer";
 import background from "images/background.jpg";
-import Div100vh from "react-div-100vh";
+import { currentHours } from "functions/time";
 
 export default () => {
   const { register, control } = useForm();
@@ -30,8 +30,6 @@ export default () => {
       append({});
     }
   }, [fields]);
-
-  const now = new Date(Date.now());
 
   return (
     <>
@@ -99,11 +97,7 @@ export default () => {
                                       as="select"
                                       name={`pills[${index}].time`}
                                       ref={register({ required: true })}
-                                      defaultValue={Math.floor(
-                                        now.getHours() +
-                                          now.getMinutes() / 60 +
-                                          0.5
-                                      )}
+                                      defaultValue={currentHours}
                                     >
                                       {[...Array(24).keys()].map((hour) => (
                                         <Fragment key={`time-options-${hour}`}>

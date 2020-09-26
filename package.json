@@ -5,6 +5,7 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
+    "@nivo/core": "^0.62.0",
     "@nivo/line": "^0.62.0",
     "bootstrap": "4.5.2",
     "node-sass": "4.14.1",

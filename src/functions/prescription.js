@@ -3,8 +3,6 @@ const plasma = (hours = 24, constant = 2.5, halfLife = 2.5, delay = 0) => {
 
   hours = hours.map((hour) => hour / 2);
 
-  console.log(hours);
-
   const data = [];
 
   const effect = (t) => {
@@ -25,23 +23,20 @@ const plasma = (hours = 24, constant = 2.5, halfLife = 2.5, delay = 0) => {
   };
 
   hours.forEach((hour) => {
-    console.log(`Hour: ${hour} \tDelay: ${delay}`);
     data.push(effect(hour));
   });
-
-  console.log(data);
 
   return data;
 };
 
-const arrayToNivo = (array) => {
-  const nivo = [];
+const arrayToData = (array) => {
+  const data = [];
 
   array.forEach((element, hour) => {
-    nivo.push({ x: hour / 2, y: element.toFixed(1) });
+    data.push({ x: Number(hour / 2), y: Number(element.toFixed(1)) });
   });
 
-  return nivo;
+  return data;
 };
 
 const drugs = {
@@ -96,5 +91,5 @@ export default (prescription) => {
     });
   });
 
-  return arrayToNivo(sum);
+  return arrayToData(sum);
 };

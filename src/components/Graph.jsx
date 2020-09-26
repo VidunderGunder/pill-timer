@@ -1,6 +1,8 @@
 import React from "react";
 import { ResponsiveLine } from "@nivo/line";
 import getData from "functions/prescription.js";
+// import { linearGradientDef } from "@nivo/core";
+import { currentHours } from "functions/time.js";
 
 /**
  * Science stuff:
@@ -18,6 +20,8 @@ export default ({ prescription }) => {
       return null;
     }
   });
+
+  const data = prescription ? getData(prescription) : [];
 
   return (
     <div style={{ height: 300 }}>
@@ -46,6 +50,14 @@ export default ({ prescription }) => {
           tickSize: 5,
         }}
         curve="monotoneX"
+        markers={[
+          {
+            axis: "x",
+            value: currentHours,
+            lineStyle: { stroke: "black", opacity: 0.25, strokeWidth: 2 },
+            legend: "Now",
+          },
+        ]}
       />
     </div>
   );
