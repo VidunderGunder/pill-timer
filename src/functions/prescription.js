@@ -18,13 +18,14 @@ const plasma = (hours = 24, constant = 2.5, halfLife = 2.5, delay = 0) => {
     }
 
     if (t < timeToTop + delay) {
-      return (t * constant) / (timeToTop + delay);
+      return ((t - delay) * constant) / timeToTop;
     }
 
     return constant * Math.exp(-k * (t - (timeToTop + delay)));
   };
 
   hours.forEach((hour) => {
+    console.log(`Hour: ${hour} \tDelay: ${delay}`);
     data.push(effect(hour));
   });
 
