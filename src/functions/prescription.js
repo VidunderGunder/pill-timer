@@ -29,7 +29,7 @@ const arrayToData = (array) => {
 };
 
 const drugs = {
-  methylphenidate: { constant: 0.2, halfLife: 2.5, name: "Methylphenidate" },
+  methylphenidate: { constant: 0.725, halfLife: 2.5, name: "Methylphenidate" },
 };
 
 const functions = {
@@ -51,7 +51,7 @@ const functions = {
   },
   concerta: (t, delay, halfLife, constant) => {
     // Needs work
-    constant = constant / 3;
+    constant = constant / 3.35;
     const k = (0.3 / halfLife) * 2;
 
     const first = 1;
