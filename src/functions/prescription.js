@@ -74,7 +74,7 @@ export default (prescription) => {
           layers.push(
             plasma(
               24,
-              dose.drug.constant * Number(pill.volume),
+              (dose.drug.constant * Number(pill.volume)) / dose.releases.length,
               dose.drug.halfLife,
               release + Number(pill.time)
             )

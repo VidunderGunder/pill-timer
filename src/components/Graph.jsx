@@ -28,7 +28,7 @@ export default ({ prescription }) => {
       <ResponsiveLine
         data={[
           {
-            id: "methylfenidate",
+            id: "prescription",
             data: prescription ? getData(prescription) : [],
           },
         ]}
