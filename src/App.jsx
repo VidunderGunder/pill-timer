@@ -65,9 +65,9 @@ export default () => {
                                 name={`pills[${index}].name`}
                                 ref={register({ required: true })}
                               >
-                                <option>Concerta</option>
                                 <option>Ritalin MR</option>
                                 <option>Ritalin IR</option>
+                                <option>Concerta</option>
                               </Form.Control>
                             </Form.Group>
                           </Col>
